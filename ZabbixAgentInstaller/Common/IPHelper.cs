@@ -29,16 +29,25 @@ namespace ZabbixAgentInstaller.Common
         public static String GetAddressIPFromKeys(List<String> keys)
         {
             ///获取本地的IP地址
-            string AddressIP = string.Empty;
+            string addressIP = string.Empty;
+            string defaultIP = string.Empty;
             foreach (IPAddress _IPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
             {
                 if (keys.Contains(_IPAddress.ToString()))
                 {
-                    AddressIP = _IPAddress.ToString();
+                    addressIP = _IPAddress.ToString();
                     break;
                 }
+                if (_IPAddress.ToString().StartsWith("192."))
+                {
+                    defaultIP = _IPAddress.ToString();
+                }
             }
-            return AddressIP;
+            if (addressIP.IsNullOrEmpty() && !defaultIP.IsNullOrEmpty())
+            {
+                return defaultIP;
+            }
+            return addressIP;
         }
 
         public static List<String> GetAllAddressIP()

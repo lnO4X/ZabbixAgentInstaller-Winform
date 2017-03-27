@@ -168,7 +168,7 @@
             this.Controls.Add(this.lbDrive);
             this.Controls.Add(this.cbDrives);
             this.Name = "FrmMain";
-            this.Text = "Agent Installer V1.1";
+            this.Text = "Agent Installer V1.2";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

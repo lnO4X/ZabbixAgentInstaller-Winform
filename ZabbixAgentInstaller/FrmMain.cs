@@ -56,7 +56,6 @@ namespace ZabbixAgentInstaller
             if (PC != null)
             {
                 tbHostname.Text = PC.name;
-
             }
             else MessageBox.Show("Cannot find matched pc in config file,please type in hostname by yourself.");
 
@@ -73,6 +72,16 @@ namespace ZabbixAgentInstaller
         String zabbix_InstallExe;
         String zabbix_ConfigFileName;
         String zabbixfolder;
+      
+        private void InstallZabbix()
+        {
+            InitZabbixParams();
+            CopyZabbixToDes();
+            OperateService(ServiceOperation.Install);
+            EditConfig();
+            FireWallHelper.NetFwAddPorts(ZabbixFolder, 10050, "TCP");
+            OperateService(ServiceOperation.Start);
+        }
         private void InitZabbixParams()
         {
             zabbixfolder = cbDrives.Text + "zabbix\\";
@@ -87,15 +96,7 @@ namespace ZabbixAgentInstaller
             FileHelper.CopyDir(ZabbixFolder, destiFolder);
         }
 
-        private void InstallZabbix()
-        {
-            InitZabbixParams();
-            CopyZabbixToDes();
-            OperateService(ServiceOperation.Install);
-            EditConfig();
-            FireWallHelper.NetFwAddPorts(ZabbixFolder, 10050, "TCP");
-            OperateService(ServiceOperation.Start);
-        }
+
         private void OperateService(ServiceOperation op)
         {
             String param = String.Empty;
